@@ -1,0 +1,272 @@
+[
+    {
+        "image_path": "image-03.jpeg",
+        "index": 0,
+        "x": 25,
+        "y": 25,
+        "angle": null,
+        "height": null,
+        "small_image_path": "small_picture\\image-03_0.jpg",
+        "corners": {
+            "top_left": [
+                0,
+                0
+            ],
+            "bottom_right": [
+                125,
+                0
+            ],
+            "bottom_left": [
+                0,
+                100
+            ],
+            "top_right": [
+                125,
+                100
+            ]
+        }
+    },
+    {
+        "image_path": "image-03.jpeg",
+        "index": 1,
+        "x": 38,
+        "y": 103,
+        "angle": 1.4025307763567931,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-03_1.jpg",
+        "corners": {
+            "top_left": [
+                0,
+                28
+            ],
+            "bottom_right": [
+                138,
+                28
+            ],
+            "bottom_left": [
+                0,
+                178
+            ],
+            "top_right": [
+                138,
+                178
+            ]
+        }
+    },
+    {
+        "image_path": "image-03.jpeg",
+        "index": 2,
+        "x": 72,
+        "y": 175,
+        "angle": 1.1300915513490055,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-03_2.jpg",
+        "corners": {
+            "top_left": [
+                0,
+                100
+            ],
+            "bottom_right": [
+                172,
+                100
+            ],
+            "bottom_left": [
+                0,
+                250
+            ],
+            "top_right": [
+                172,
+                250
+            ]
+        }
+    },
+    {
+        "image_path": "image-03.jpeg",
+        "index": 3,
+        "x": 128,
+        "y": 231,
+        "angle": 0.7918915786256737,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-03_3.jpg",
+        "corners": {
+            "top_left": [
+                28,
+                156
+            ],
+            "bottom_right": [
+                228,
+                156
+            ],
+            "bottom_left": [
+                28,
+                306
+            ],
+            "top_right": [
+                228,
+                306
+            ]
+        }
+    },
+    {
+        "image_path": "image-03.jpeg",
+        "index": 4,
+        "x": 199,
+        "y": 267,
+        "angle": 0.46907496412293825,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-03_4.jpg",
+        "corners": {
+            "top_left": [
+                99,
+                192
+            ],
+            "bottom_right": [
+                299,
+                192
+            ],
+            "bottom_left": [
+                99,
+                342
+            ],
+            "top_right": [
+                299,
+                342
+            ]
+        }
+    },
+    {
+        "image_path": "image-03.jpeg",
+        "index": 5,
+        "x": 270,
+        "y": 303,
+        "angle": 0.47076492654201596,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-03_5.jpg",
+        "corners": {
+            "top_left": [
+                170,
+                228
+            ],
+            "bottom_right": [
+                370,
+                228
+            ],
+            "bottom_left": [
+                170,
+                378
+            ],
+            "top_right": [
+                370,
+                378
+            ]
+        }
+    },
+    {
+        "image_path": "image-03.jpeg",
+        "index": 6,
+        "x": 326,
+        "y": 359,
+        "angle": 0.7853981633974483,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-03_6.jpg",
+        "corners": {
+            "top_left": [
+                226,
+                284
+            ],
+            "bottom_right": [
+                426,
+                284
+            ],
+            "bottom_left": [
+                226,
+                434
+            ],
+            "top_right": [
+                426,
+                434
+            ]
+        }
+    },
+    {
+        "image_path": "image-03.jpeg",
+        "index": 7,
+        "x": 372,
+        "y": 424,
+        "angle": 0.9561333748727311,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-03_7.jpg",
+        "corners": {
+            "top_left": [
+                272,
+                349
+            ],
+            "bottom_right": [
+                472,
+                349
+            ],
+            "bottom_left": [
+                272,
+                499
+            ],
+            "top_right": [
+                472,
+                499
+            ]
+        }
+    },
+    {
+        "image_path": "image-03.jpeg",
+        "index": 8,
+        "x": 440,
+        "y": 465,
+        "angle": 0.5436452955332054,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-03_8.jpg",
+        "corners": {
+            "top_left": [
+                340,
+                390
+            ],
+            "bottom_right": [
+                512,
+                390
+            ],
+            "bottom_left": [
+                340,
+                512
+            ],
+            "top_right": [
+                512,
+                512
+            ]
+        }
+    },
+    {
+        "image_path": "image-03.jpeg",
+        "index": 9,
+        "x": 450,
+        "y": 450,
+        "angle": null,
+        "height": null,
+        "small_image_path": "small_picture\\image-03_9.jpg",
+        "corners": {
+            "top_left": [
+                350,
+                375
+            ],
+            "bottom_right": [
+                512,
+                375
+            ],
+            "bottom_left": [
+                350,
+                512
+            ],
+            "top_right": [
+                512,
+                512
+            ]
+        }
+    }
+]

@@ -1,0 +1,272 @@
+[
+    {
+        "image_path": "image-01.jpeg",
+        "index": 0,
+        "x": 25,
+        "y": 25,
+        "angle": null,
+        "height": null,
+        "small_image_path": "small_picture\\image-01_0.jpg",
+        "corners": {
+            "top_left": [
+                0,
+                0
+            ],
+            "bottom_right": [
+                125,
+                0
+            ],
+            "bottom_left": [
+                0,
+                100
+            ],
+            "top_right": [
+                125,
+                100
+            ]
+        }
+    },
+    {
+        "image_path": "image-01.jpeg",
+        "index": 1,
+        "x": 103,
+        "y": 42,
+        "angle": 0.21670210379089255,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-01_1.jpg",
+        "corners": {
+            "top_left": [
+                3,
+                0
+            ],
+            "bottom_right": [
+                203,
+                0
+            ],
+            "bottom_left": [
+                3,
+                117
+            ],
+            "top_right": [
+                203,
+                117
+            ]
+        }
+    },
+    {
+        "image_path": "image-01.jpeg",
+        "index": 2,
+        "x": 182,
+        "y": 54,
+        "angle": 0.15317661545422787,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-01_2.jpg",
+        "corners": {
+            "top_left": [
+                82,
+                0
+            ],
+            "bottom_right": [
+                282,
+                0
+            ],
+            "bottom_left": [
+                82,
+                129
+            ],
+            "top_right": [
+                282,
+                129
+            ]
+        }
+    },
+    {
+        "image_path": "image-01.jpeg",
+        "index": 3,
+        "x": 261,
+        "y": 64,
+        "angle": 0.12923950277011195,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-01_3.jpg",
+        "corners": {
+            "top_left": [
+                161,
+                0
+            ],
+            "bottom_right": [
+                361,
+                0
+            ],
+            "bottom_left": [
+                161,
+                139
+            ],
+            "top_right": [
+                361,
+                139
+            ]
+        }
+    },
+    {
+        "image_path": "image-01.jpeg",
+        "index": 4,
+        "x": 340,
+        "y": 74,
+        "angle": 0.1257694207605277,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-01_4.jpg",
+        "corners": {
+            "top_left": [
+                240,
+                0
+            ],
+            "bottom_right": [
+                440,
+                0
+            ],
+            "bottom_left": [
+                240,
+                149
+            ],
+            "top_right": [
+                440,
+                149
+            ]
+        }
+    },
+    {
+        "image_path": "image-01.jpeg",
+        "index": 5,
+        "x": 411,
+        "y": 110,
+        "angle": 0.47385133649476036,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-01_5.jpg",
+        "corners": {
+            "top_left": [
+                311,
+                35
+            ],
+            "bottom_right": [
+                511,
+                35
+            ],
+            "bottom_left": [
+                311,
+                185
+            ],
+            "top_right": [
+                511,
+                185
+            ]
+        }
+    },
+    {
+        "image_path": "image-01.jpeg",
+        "index": 6,
+        "x": 460,
+        "y": 172,
+        "angle": 0.906021831977551,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-01_6.jpg",
+        "corners": {
+            "top_left": [
+                360,
+                97
+            ],
+            "bottom_right": [
+                512,
+                97
+            ],
+            "bottom_left": [
+                360,
+                247
+            ],
+            "top_right": [
+                512,
+                247
+            ]
+        }
+    },
+    {
+        "image_path": "image-01.jpeg",
+        "index": 7,
+        "x": 473,
+        "y": 250,
+        "angle": 1.396124127786657,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-01_7.jpg",
+        "corners": {
+            "top_left": [
+                373,
+                175
+            ],
+            "bottom_right": [
+                512,
+                175
+            ],
+            "bottom_left": [
+                373,
+                325
+            ],
+            "top_right": [
+                512,
+                325
+            ]
+        }
+    },
+    {
+        "image_path": "image-01.jpeg",
+        "index": 8,
+        "x": 482,
+        "y": 329,
+        "angle": 1.4480682288605033,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-01_8.jpg",
+        "corners": {
+            "top_left": [
+                382,
+                254
+            ],
+            "bottom_right": [
+                512,
+                254
+            ],
+            "bottom_left": [
+                382,
+                404
+            ],
+            "top_right": [
+                512,
+                404
+            ]
+        }
+    },
+    {
+        "image_path": "image-01.jpeg",
+        "index": 9,
+        "x": 485,
+        "y": 408,
+        "angle": 1.5273454314033659,
+        "height": 12.345679012345679,
+        "small_image_path": "small_picture\\image-01_9.jpg",
+        "corners": {
+            "top_left": [
+                385,
+                333
+            ],
+            "bottom_right": [
+                512,
+                333
+            ],
+            "bottom_left": [
+                385,
+                483
+            ],
+            "top_right": [
+                512,
+                483
+            ]
+        }
+    }
+]
