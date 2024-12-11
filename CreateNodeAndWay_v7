@@ -1,0 +1,259 @@
+import cv2
+import numpy as np
+import random
+import matplotlib.pyplot as plt
+import json
+import os
+import math
+
+
+# 节点类
+class Node:
+    def __init__(self, x, y, parent=None, angle=None, height=None):
+        self.x = x
+        self.y = y
+        self.parent = parent
+        self.angle = angle  # 朝向角度（弧度制）
+        self.height = height  # 高度信息
+
+
+# 随机生成有效点
+def generate_random_point(image_size):
+    width, height = image_size
+    return (random.randint(0, width - 1), random.randint(0, height - 1))
+
+
+# 找到离目标最近的节点
+def find_nearest_node(node_list, random_node):
+    return min(node_list, key=lambda node: np.hypot(node.x - random_node.x, node.y - random_node.y))
+
+
+# 节点扩展
+def steer(from_node, to_node, step_size=100):
+    angle = np.arctan2(to_node.y - from_node.y, to_node.x - from_node.x)
+    new_x = from_node.x + step_size * np.cos(angle)
+    new_y = from_node.y + step_size * np.sin(angle)
+
+    # 计算朝向角度（弧度制）
+    new_angle = angle
+
+    # 假设高度与步长成反比（这只是一个示例，实际可根据需求调整）
+    height = 1000 / (step_size + 1)  # 假设标准高度为1000，并根据步长调整高度
+
+    return Node(int(new_x), int(new_y), from_node, new_angle, height)
+
+
+# 检查节点合法性
+def is_valid_point(point, image_size, margin=20):
+    x, y = point
+    width, height = image_size
+    return (margin <= x <= width - margin) and (margin <= y <= height - margin)
+
+
+# 检查路径平滑性（加入角度上下限）
+def is_smooth(node_list, new_node, angle_threshold_lower=2.61799, angle_threshold_upper=3.66519):
+    if len(node_list) < 2:
+        return True
+    p1 = np.array([node_list[-2].x, node_list[-2].y])
+    p2 = np.array([node_list[-1].x, node_list[-1].y])
+    p3 = np.array([new_node.x, new_node.y])
+
+    v1 = p1 - p2
+    v2 = p3 - p2
+
+    norm_v1 = np.linalg.norm(v1)
+    norm_v2 = np.linalg.norm(v2)
+
+    # 避免除以零
+    if norm_v1 == 0 or norm_v2 == 0:
+        return False  # 或者根据需求返回True，这里返回False表示不可平滑
+
+    cos_angle = np.dot(v1, v2) / (norm_v1 * norm_v2)
+    angle = np.arccos(np.clip(cos_angle, -1.0, 1.0))
+
+    # 限制角度大于2.61799弧度（150度）且小于3.66519弧度（210度）
+    return angle >= angle_threshold_lower and angle <= angle_threshold_upper
+
+
+# 提取路径
+def extract_path(goal_node):
+    path = []
+    current = goal_node
+    while current is not None:
+        path.append((current.x, current.y, current.angle, current.height))  # 添加角度和高度信息
+        current = current.parent
+    return path[::-1]  # 反转路径
+
+
+# 可视化路径
+def visualize_path(image, path):
+    for point in path:
+        cv2.circle(image, (point[0], point[1]), 5, (0, 255, 0), -1)  # 在路径点处绘制绿色圆点
+    for i in range(len(path) - 1):
+        cv2.line(image, (path[i][0], path[i][1]), (path[i + 1][0], path[i + 1][1]), (255, 0, 0), 2)  # 用蓝色线条连接路径点
+    return image
+
+
+# RRT路径规划函数
+def rrt_path_planning(start, goal, image_size, max_iterations=1000, max_nodes=10, step_size=80):
+    start_node = Node(start[0], start[1], None, None)
+    goal_node = Node(goal[0], goal[1], None, None)
+    node_list = [start_node]
+
+    for _ in range(max_iterations):
+        if len(node_list) >= max_nodes:  # 设置最大节点数量为 10
+            break
+
+        rand_point = generate_random_point(image_size)
+        random_node = Node(rand_point[0], rand_point[1])
+        nearest_node = find_nearest_node(node_list, random_node)
+
+        new_node = steer(nearest_node, random_node, step_size)
+
+        if is_valid_point((new_node.x, new_node.y), image_size) and is_smooth(node_list, new_node):
+            node_list.append(new_node)
+
+            # 检查是否接近目标
+            if np.hypot(new_node.x - goal_node.x, new_node.y - goal_node.y) < 20:
+                goal_node.parent = new_node
+                node_list.append(goal_node)
+                break
+
+    return extract_path(node_list[-1]) if len(node_list) > 1 else None
+
+# 提取小图片区域，并计算四个角的坐标
+def extract_region_and_corners(image, center, region_size=(200, 150)):
+    x, y = center
+    width, height = region_size
+    x_start = max(0, x - width // 2)
+    y_start = max(0, y - height // 2)
+    x_end = min(image.shape[1], x + width // 2)
+    y_end = min(image.shape[0], y + height // 2)
+
+    # 计算四个角的坐标
+    top_left = (x_start, y_start)
+    top_right = (x_end, y_start)
+    bottom_left = (x_start, y_end)
+    bottom_right = (x_end, y_end)
+
+    return image[y_start:y_end, x_start:x_end], [top_left, top_right, bottom_left, bottom_right]
+
+
+# 保存路径到JSON文件
+'''def save_path_to_json(path, filename, image_name, image_folder):
+    path_data = []
+    for idx, (x, y, angle, height) in enumerate(path):
+        small_image_name = f"{image_name.split('.')[0]}_{idx}.jpg"
+        small_image_path = os.path.join(image_folder, "small_picture", small_image_name)
+
+        # 提取小区域和四个角的坐标
+        region, corners = extract_region_and_corners(cv2.imread(os.path.join(image_folder, image_name)), (x, y))
+
+        path_data.append({
+            "image_path": os.path.relpath(os.path.join(image_folder, image_name), image_folder),  # 相对路径
+            "index": idx,
+            "x": x,
+            "y": y,
+            "angle": angle,  # 以弧度制记录角度
+            "height": height,  # 添加高度信息
+            "small_image_path": os.path.relpath(small_image_path, image_folder),  # 相对路径
+            "corners": corners  # 添加四个角的坐标
+        })
+
+    json_folder = os.path.join(image_folder, "json")  # 目标文件夹
+    if not os.path.exists(json_folder):
+        os.makedirs(json_folder)  # 创建文件夹
+
+    json_filename = os.path.join(json_folder, f"path_{filename.split('.')[0]}.json")  # 保存到json文件夹中
+    with open(json_filename, 'w') as json_file:
+        json.dump(path_data, json_file, indent=4)
+'''
+# 保存路径到JSON文件
+def save_path_to_json(path, filename, image_name, image_folder):
+    path_data = []
+    full_image_path = os.path.join(image_folder, image_name)
+    full_image = cv2.imread(full_image_path)
+
+    if full_image is None:
+        print(f"Failed to load image: {image_name}")
+        return
+
+    for idx, (x, y, angle, height) in enumerate(path):
+        small_image_name = f"{image_name.split('.')[0]}_{idx}.jpg"
+        small_image_path = os.path.join(image_folder, "small_picture", small_image_name)
+
+        # 提取小区域和四个角的坐标
+        region, corners = extract_region_and_corners(full_image, (x, y))
+
+        # 将四个角点的坐标转换为带名称的格式
+        corners_named = {
+            "top_left": corners[0],
+            "bottom_right": corners[1],
+            "bottom_left": corners[2],
+            "top_right": corners[3]
+        }
+
+        # 保存小区域图像
+        cv2.imwrite(small_image_path, region)
+
+        path_data.append({
+            "image_path": os.path.relpath(full_image_path, image_folder),  # 相对路径
+            "index": idx,
+            "x": x,
+            "y": y,
+            "angle": angle,  # 以弧度制记录角度
+            "height": height,  # 添加高度信息
+            "small_image_path": os.path.relpath(small_image_path, image_folder),  # 相对路径
+            "corners": corners_named  # 添加命名的四个角点
+        })
+
+    json_folder = os.path.join(image_folder, "json")  # 目标文件夹
+    if not os.path.exists(json_folder):
+        os.makedirs(json_folder)  # 创建文件夹
+
+    json_filename = os.path.join(json_folder, f"path_{filename.split('.')[0]}.json")  # 保存到json文件夹中
+    with open(json_filename, 'w') as json_file:
+        json.dump(path_data, json_file, indent=4)
+
+# 主函数
+if __name__ == "__main__":
+    image_folder = 'E:/PycharmProject/MMPUFirst/picture'  # 图片文件夹路径
+    small_picture_folder = os.path.join(image_folder, "small_picture")
+    visual_picture_folder = os.path.join(image_folder, "visual_picture")  # 创建 visual_picture 文件夹
+    if not os.path.exists(small_picture_folder):
+        os.makedirs(small_picture_folder)  # 创建小图片保存文件夹
+    if not os.path.exists(visual_picture_folder):
+        os.makedirs(visual_picture_folder)  # 创建可视化图片保存文件夹
+
+    start = (25, 25)  # 设置起点
+    goal = (450, 450)  # 设置目标点
+    max_attempts = 20  # 最大尝试次数
+
+    for filename in os.listdir(image_folder):
+        if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+            image_path = os.path.join(image_folder, filename)
+            image = cv2.imread(image_path)
+
+            if image is None:
+                print(f"Failed to load image: {filename}")
+                continue
+
+            image_size = (image.shape[1], image.shape[0])
+            path = None
+
+            for attempt in range(max_attempts):
+                path = rrt_path_planning(start, goal, image_size)
+                if path and len(path) >= 10:  # 路径节点数不少于10个
+                    break
+                print(f"Attempt {attempt + 1} for {filename}: Path found with {len(path)} nodes.")
+
+            if path:
+                visualized_image = visualize_path(image.copy(), path)
+                visualized_image_path = os.path.join(visual_picture_folder, filename)
+                cv2.imwrite(visualized_image_path, visualized_image)
+
+                # 保存路径信息到JSON文件
+                save_path_to_json(path, filename, filename, image_folder)
+                print(f"Path saved for {filename}")
+            else:
+                print(f"Failed to find a valid path for {filename}.")
